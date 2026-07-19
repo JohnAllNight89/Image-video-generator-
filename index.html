@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image &amp; Video Generator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+  <header class="app-header">
+    <h1>🎨 Image &amp; Video Generator</h1>
+    <p class="tagline">Free &middot; No API key &middot; No usage limits &middot; No watermarks</p>
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="image">🖼️ Images</button>
+      <button class="tab-btn" data-tab="video">🎬 Video</button>
+      <button class="tab-btn" data-tab="gallery">📁 Gallery <span id="gallery-count" class="badge">0</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- ============ IMAGE TAB ============ -->
+    <section id="tab-image" class="tab-panel active">
+      <div class="panel-grid">
+        <div class="controls card">
+          <label for="img-prompt">Prompt</label>
+          <textarea id="img-prompt" rows="3" placeholder="A majestic snow leopard on a cliff at sunset, cinematic lighting, ultra detailed"></textarea>
+
+          <div class="row">
+            <div class="field">
+              <label for="img-model">Model</label>
+              <select id="img-model">
+                <option value="flux" selected>Flux (best quality)</option>
+                <option value="turbo">Turbo (fastest)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="img-preset">Size preset</label>
+              <select id="img-preset">
+                <option value="1024x1024" selected>Square 1024&times;1024</option>
+                <option value="1280x720">Landscape 1280&times;720</option>
+                <option value="1920x1080">Full HD 1920&times;1080</option>
+                <option value="720x1280">Portrait 720&times;1280</option>
+                <option value="1080x1920">Portrait FHD 1080&times;1920</option>
+                <option value="custom">Custom&hellip;</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row" id="custom-size-row" hidden>
+            <div class="field">
+              <label for="img-width">Width</label>
+              <input type="number" id="img-width" value="1024" min="64" max="4096" step="8">
+            </div>
+            <div class="field">
+              <label for="img-height">Height</label>
+              <input type="number" id="img-height" value="1024" min="64" max="4096" step="8">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="img-count">Images per batch</label>
+              <input type="number" id="img-count" value="4" min="1" max="12">
+            </div>
+            <div class="field">
+              <label for="img-seed">Seed <small>(blank = random)</small></label>
+              <input type="number" id="img-seed" placeholder="random">
+            </div>
+          </div>
+
+          <label class="checkbox"><input type="checkbox" id="img-enhance" checked> Enhance prompt automatically</label>
+
+          <button id="btn-generate-images" class="primary">✨ Generate</button>
+          <p id="img-status" class="status"></p>
+        </div>
+
+        <div class="results card">
+          <h2>Results</h2>
+          <div id="img-results" class="thumb-grid empty-hint" data-hint="Generated images appear here. Click one to view full size."></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VIDEO TAB ============ -->
+    <section id="tab-video" class="tab-panel">
+      <div class="panel-grid">
+        <div class="controls card">
+          <label for="vid-mode">Video mode</label>
+          <select id="vid-mode">
+            <option value="ai-frames" selected>AI animation — frames generated from prompt</option>
+            <option value="slideshow">Slideshow — from your gallery images</option>
+          </select>
+
+          <div id="vid-ai-controls">
+            <label for="vid-prompt">Prompt</label>
+            <textarea id="vid-prompt" rows="3" placeholder="A rocket launching into a starry sky, dramatic clouds"></textarea>
+            <div class="row">
+              <div class="field">
+                <label for="vid-frames">Keyframes</label>
+                <input type="number" id="vid-frames" value="6" min="2" max="30">
+              </div>
+              <div class="field">
+                <label for="vid-model">Model</label>
+                <select id="vid-model">
+                  <option value="turbo" selected>Turbo (fastest)</option>
+                  <option value="flux">Flux (best quality)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div id="vid-slideshow-controls" hidden>
+            <p class="hint">Uses the images selected in your <strong>Gallery</strong> tab (or all of them if none are selected).</p>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="vid-res">Resolution</label>
+              <select id="vid-res">
+                <option value="1280x720" selected>720p (1280&times;720)</option>
+                <option value="1920x1080">1080p (1920&times;1080)</option>
+                <option value="720x1280">Portrait 720&times;1280</option>
+                <option value="640x640">Square 640&times;640</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="vid-seconds-per">Seconds per frame</label>
+              <input type="number" id="vid-seconds-per" value="2" min="0.5" max="10" step="0.5">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="field">
+              <label for="vid-fps">FPS</label>
+              <select id="vid-fps">
+                <option value="24">24</option>
+                <option value="30" selected>30</option>
+                <option value="60">60</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="vid-effect">Motion effect</label>
+              <select id="vid-effect">
+                <option value="kenburns" selected>Ken Burns (pan &amp; zoom)</option>
+                <option value="crossfade">Crossfade only</option>
+                <option value="zoom">Slow zoom</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="btn-generate-video" class="primary">🎬 Generate video</button>
+          <div class="progress-wrap" id="vid-progress-wrap" hidden>
+            <div class="progress-bar"><div id="vid-progress" class="progress-fill"></div></div>
+            <p id="vid-status" class="status"></p>
+          </div>
+        </div>
+
+        <div class="results card">
+          <h2>Preview</h2>
+          <video id="vid-preview" controls hidden></video>
+          <div id="vid-placeholder" class="empty-hint tall" data-hint="Your rendered video appears here."></div>
+          <a id="vid-download" class="btn secondary" hidden download="generated-video.webm">⬇️ Download video</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY TAB ============ -->
+    <section id="tab-gallery" class="tab-panel">
+      <div class="card">
+        <div class="gallery-toolbar">
+          <h2>Gallery</h2>
+          <div>
+            <button id="btn-select-all" class="secondary">Select all</button>
+            <button id="btn-clear-selection" class="secondary">Clear selection</button>
+            <button id="btn-download-selected" class="secondary">⬇️ Download selected</button>
+            <button id="btn-delete-selected" class="danger">🗑️ Delete selected</button>
+          </div>
+        </div>
+        <p class="hint">Click an image to select it for slideshow videos or bulk actions. Double-click to view full size.</p>
+        <div id="gallery-grid" class="thumb-grid empty-hint" data-hint="Everything you generate is collected here."></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" hidden>
+    <button id="lightbox-close" class="lightbox-close">&times;</button>
+    <img id="lightbox-img" alt="Full size preview">
+    <div class="lightbox-actions">
+      <a id="lightbox-download" class="btn secondary" download>⬇️ Download</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>Images generated via the free <a href="https://pollinations.ai" target="_blank" rel="noopener">Pollinations.ai</a> API &middot; Videos rendered locally in your browser &middot; Content is subject to the upstream model provider's policies.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

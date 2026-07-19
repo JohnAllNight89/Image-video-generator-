@@ -1,0 +1,7 @@
+# Prompt CLI output and per-user config
+output_*.txt
+brand.json
+
+__pycache__/
+*.pyc
+.DS_Store
