@@ -1,0 +1,61 @@
+{
+  "brand_name": "The Unified Spirit",
+  "tagline": "One vision, many forms.",
+  "global_negative": "watermark, signature, text overlay, jpeg artifacts, lowres, worst quality, oversaturated, deformed, disfigured, extra limbs, bad anatomy, bad hands, cropped, out of frame",
+  "presets": {
+    "photorealistic": {
+      "description": "True-to-life photography look for hero imagery and product shots.",
+      "style_suffix": "ultra photorealistic, natural skin texture, accurate materials and physics, shallow depth of field, shot on full-frame mirrorless with 50mm f/1.4 lens, soft directional lighting, subtle film grain, 8k detail, sharp focus",
+      "negative_prompt": "cartoon, anime, illustration, painting, 3d render, cgi, plastic skin, waxy, airbrushed, hdr halo, overprocessed",
+      "guidance_scale": 3.5,
+      "steps": 40,
+      "preferred_model": "flux-dev",
+      "aspect_ratio": "3:2"
+    },
+    "cinematic": {
+      "description": "Filmic frames with dramatic light for campaign visuals and video.",
+      "style_suffix": "cinematic still, anamorphic lens, dramatic volumetric lighting, teal and amber color grade, atmospheric haze, high dynamic range, composition following rule of thirds, film production quality, motion picture frame",
+      "negative_prompt": "flat lighting, snapshot, amateur photo, harsh flash, washed out, video game screenshot",
+      "guidance_scale": 4.0,
+      "steps": 40,
+      "preferred_model": "flux-dev",
+      "aspect_ratio": "16:9"
+    },
+    "minimalist-logo": {
+      "description": "Flat, geometric logomarks. Tuned hard against hallucinated text and clutter.",
+      "style_suffix": "minimalist vector logo, flat design, simple geometric shapes, perfectly centered composition, generous negative space, solid plain background, two-color palette, crisp clean edges, scalable brand mark, professional corporate identity",
+      "negative_prompt": "photo, photorealistic, 3d render, gradients, drop shadow, bevel, texture, noise, busy background, clutter, multiple logos, mockup, business card, frame, border, letters, words, typography, gibberish text, misspelled text, watermark, complex detail",
+      "guidance_scale": 7.0,
+      "steps": 50,
+      "preferred_model": "sd35-large",
+      "aspect_ratio": "1:1"
+    },
+    "luxury": {
+      "description": "Premium editorial aesthetic: gold, marble, deep shadows, restraint.",
+      "style_suffix": "luxury editorial photography, elegant restrained composition, deep rich shadows, gold and obsidian palette, marble and brushed metal textures, soft rim lighting, high-end advertising quality, refined and timeless",
+      "negative_prompt": "cheap, plastic, cluttered, garish colors, neon, cartoon, low budget, stock photo look",
+      "guidance_scale": 4.0,
+      "steps": 45,
+      "preferred_model": "flux-dev",
+      "aspect_ratio": "4:5"
+    },
+    "ethereal": {
+      "description": "Soft spiritual glow for The Unified Spirit's community and inspiration content.",
+      "style_suffix": "ethereal atmosphere, soft diffused golden light, gentle bloom, pastel gradients of dawn, serene and uplifting mood, fine mist, delicate detail, harmonious balanced composition",
+      "negative_prompt": "harsh contrast, dark horror mood, grim, gritty, desaturated, oppressive shadows",
+      "guidance_scale": 3.5,
+      "steps": 40,
+      "preferred_model": "flux-dev",
+      "aspect_ratio": "3:2"
+    },
+    "vibrant-social": {
+      "description": "Bold thumb-stopping visuals for social feeds.",
+      "style_suffix": "bold vibrant colors, punchy contrast, clean modern styling, eye-catching central subject, crisp studio lighting, social media campaign quality",
+      "negative_prompt": "dull, muted, muddy colors, cluttered background, small subject, busy composition",
+      "guidance_scale": 4.5,
+      "steps": 35,
+      "preferred_model": "flux-dev",
+      "aspect_ratio": "1:1"
+    }
+  }
+}

@@ -1,7 +1,17 @@
-# Prompt CLI output and per-user config
+# Prompt CLI output and per-user config (root only — auragen/config/brand.json is packaged)
 output_*.txt
-brand.json
+/brand.json
+
+# Secrets — never commit
+.env
+
+# AuraGen generated media
+outputs/
 
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+.venv/
 .DS_Store
