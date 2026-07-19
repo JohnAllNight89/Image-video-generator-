@@ -4,8 +4,8 @@ from datetime import datetime
 
 # Local prompt templates and brand storage
 BRAND_GUIDELINES = {
-    "default_style": "ultra photorealistic, hyper detailed, 8k resolution, cinematic lighting, accurate physics and textures",
-    "negative": "blurry, low quality, deformed, cartoonish, text errors, artifacts, overexposed"
+    "default_style": "ultra photorealistic, hyper realistic textures, 8k, cinematic volumetric lighting, accurate anatomy and physics, sharp focus, detailed skin/hair/materials",
+    "negative": "blurry, low quality, deformed anatomy, cartoon, anime, text errors, artifacts, overexposed, bad proportions"
 }
 
 def load_or_create_brand(file="brand.json"):
@@ -20,14 +20,14 @@ def load_or_create_brand(file="brand.json"):
 
 def create_image_prompt(user_request, style="photorealistic"):
     brand = load_or_create_brand()
-    base = f"{user_request}, {brand['default_style']}, {style} quality"
+    base = f"{user_request}, {brand['default_style']}, {style}"
     prompt = f"""
 === IMAGE PROMPT ===
 {base}
 
-**Variation 1:** {base} --ar 16:9 --v 6 --stylize 750 --q 2
-**Variation 2:** {base} dramatic lighting, golden hour, sharp focus
-**Variation 3:** {base} minimalist composition, studio lighting
+**Variation 1:** {base} --ar 16:9 --v 6 --stylize 600 --q 2
+**Variation 2:** {base} dramatic cinematic lighting, golden hour, extreme detail
+**Variation 3:** {base} close-up realistic textures, professional studio quality
 
 **Negative Prompts:** {brand['negative']}, watermark, text mistakes
 """
@@ -37,10 +37,10 @@ def create_video_prompt(user_request, duration="10"):
     brand = load_or_create_brand()
     prompt = f"""
 === VIDEO PROMPT ({duration}s) ===
-{user_request}, {brand['default_style']}, smooth cinematic camera movements, dynamic pacing
+{user_request}, {brand['default_style']}, smooth realistic motion, dynamic camera movements, natural physics
 
-**Full Prompt for Kling/Runway:**
-{user_request}, photorealistic motion, {duration} second clip, detailed environment, natural physics
+**Full Prompt for Runway/Kling/Luma:**
+{user_request}, photorealistic motion, {duration} second clip, detailed environment, cinematic
 
 **Negative:** {brand['negative']}
 """
@@ -64,7 +64,7 @@ if __name__ == "__main__":
         request = input("Describe exactly what you want: ")
 
         if mode == "i":
-            style = input("Style (photorealistic / logo / branding / custom): ") or "photorealistic"
+            style = input("Style (photorealistic / logo / branding / product / portrait / custom): ") or "photorealistic"
             result = create_image_prompt(request, style)
         else:
             duration = input("Duration in seconds: ") or "10"
